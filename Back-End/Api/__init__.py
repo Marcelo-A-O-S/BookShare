@@ -6,6 +6,7 @@ app = Flask(__name__);
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-from Api.Controllers import Default
-from Api.Controllers import Usuario
-from Api.Controllers import Cadastro
+from Api.Controllers import Default, Usuario, Cadastro
+
+
+from Api.ViewModel import UsuarioView
