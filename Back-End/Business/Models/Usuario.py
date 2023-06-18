@@ -1,7 +1,16 @@
 import hashlib
 import os
+from dataclasses import dataclass
 
+@dataclass
 class Usuario:
+    id: int;
+    primeironome: str;
+    ultimonome: str;
+    email: str;
+    papelAtribuido: str;
+    senhaHash: str;
+    senhaSalt: str;
     def __init__(self):
         self.id = 0;
         self.primeironome = "";

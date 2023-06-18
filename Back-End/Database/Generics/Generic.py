@@ -39,6 +39,7 @@ class BaseGeneric():
             query = "insert into {} ({}) values({});".format(tabela,colunas.rstrip(colunas[-1]),values.rstrip(values[-1]));
             cursor.execute(query);
             conexao.commit()
+            cursor.close()
             conexao.close()
             return "Inserido no banco com sucesso!"
         except mysql.connector.Error as e:
@@ -53,6 +54,7 @@ class BaseGeneric():
             tabela = value.__class__.__name__.lower();
             query = "select * from {};".format(tabela);
             cursor.execute(query);
+            conexao.commit();
             lista = cursor.fetchall()
             cursor.close();
             conexao.close();
@@ -101,3 +103,40 @@ class BaseGeneric():
             conexao.close();
         except mysql.connector.Error as e:
             return e.msg
+
+    def FindById(self, value: T, id) -> T:
+        try:
+            conn = Connection()
+            conexao = conn.Conexao()
+            cursor = conn.Cursor(conexao)
+            tabela = value.__class__.__name__.lower();
+            propriedades = [propriedade for propriedade in vars(value)];
+            query = "select * from {} where id={} limit 1;".format(tabela, id);
+            cursor.execute(query);
+            conexao.commit();
+            busca = cursor.fetchall();
+            cursor.close();
+            conexao.close();
+            if busca.__len__() > 0:
+                for valor in busca:
+                    for prop in propriedades:
+                        setattr(value, prop, valor[prop])
+                return value
+            else:
+                return None
+        except mysql.connector.Error as err:
+            return err;
+
+    def Delete(self, value:T, id) -> T:
+        try:
+            conn = Connection();
+            conexao = conn.Conexao();
+            cursor = conn.Cursor(conexao);
+            tabela = value.__class__.__name__.lower()
+            query = "delete from {} where id= {}".format(tabela, id)
+            cursor.execute(query)
+            conexao.commit();
+            cursor.close();
+            conexao.close();
+        except mysql.connector.Error as err:
+            return err;

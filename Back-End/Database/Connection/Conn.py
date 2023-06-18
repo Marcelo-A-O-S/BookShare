@@ -1,6 +1,4 @@
 import mysql.connector
-from typing import TypeVar, Generic, Any, List
-T = TypeVar("T");
 
 class Connection:
     def __init__(self):

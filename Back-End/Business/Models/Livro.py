@@ -1,6 +1,9 @@
+from dataclasses import dataclass
+
+@dataclass
 class Livro:
     def __init__(self):
         self.id = 0;
-        self.name = "";
-        self.description = "";
-        self.livro: bytes ;
+        self.nome = "";
+        self.descricao = "";
+        self.livro: str = "";

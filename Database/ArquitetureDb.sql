@@ -1,7 +1,7 @@
 Create database SA4;
 
-use sa4;
-drop table usuario;
+select * from sa4.usuario;
+select * from sa4.livro;
 use sa4;
 create table usuario
 (
@@ -13,7 +13,31 @@ papelAtribuido varchar(15) not null,
 senhaHash varchar(255) not null,
 senhaSalt varchar(255) not null
 );
+use sa4;
+create table livro
+(
+id int primary Key auto_increment not null,
+nome varchar(80) not null,
+descricao varchar(50) not null,
+livro longtext not null
+);
 
+use sa4;
+create table post
+(
+id int primary Key auto_increment not null,
+idUsuario int not null,
+idLivro int not null,
+foreign key(idUsuario) references sa4.usuario(id) on update cascade on delete cascade,
+foreign key(idLivro) references sa4.livro(id) on update cascade on delete cascade
+);
+
+use sa4;
+drop table post;
+use sa4;
+drop table livro;
+
+select count(*) as retorno from sa4.livro livro where livro.nome = 'Teste';
 use sa4;
 create table teste(
 coluna blob not null 

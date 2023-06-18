@@ -31,6 +31,7 @@ class UsuarioServices:
         except Exception as e:
             return e;
     def BuscarUsuarioPorEmail(self, email:str) -> Usuario:
+
         try:
             usuario = Usuario()
             resultado = self.usuarioCustom.BuscarPorEmailUsuario(email)
@@ -49,3 +50,20 @@ class UsuarioServices:
                     return usuario
         except Exception as e:
             return e;
+    def BuscarUsuarioPorId(self, id):
+        try:
+            usuario = Usuario()
+            usuario = self.usuarioRepository.FindById(usuario, id=id)
+            if usuario != None:
+                return usuario;
+            else:
+                return usuario
+        except Exception as e:
+            return e;
+    def DeletarUsuario(self, id) :
+        try:
+            usuario = Usuario();
+            self.DeletarUsuario(usuario, id);
+        except Exception as e:
+            return e;
+

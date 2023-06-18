@@ -4,23 +4,26 @@ from flask import request, jsonify
 import json
 from Business.Services.UsuarioServices import UsuarioServices
 from Api.ViewModel.UsuarioView import UsuarioView
+from flask_cors import cross_origin
 
 
-@app.route("/Login")
+@app.route("/Login", methods = ['POST'])
 def login():
     try:
-        data = json.loads(request.data)
-        userService = UsuarioServices();
+        data = json.loads(request.data);
+
         usuarioAtual = Usuario();
+        userService = UsuarioServices();
         usuarioAtual = userService.BuscarUsuarioPorEmail(data['email']);
         if usuarioAtual != 0:
             resultado = usuarioAtual.VerificarSenhaHash(data['password'])
             if resultado == True:
                 usuarioview = UsuarioView();
+                usuarioview.id = usuarioAtual.id;
                 usuarioview.nome = usuarioAtual.primeironome;
                 usuarioview.email = usuarioAtual.email;
                 usuarioview.papelAtribuido = usuarioAtual.papelAtribuido;
-                return jsonify(usuarioview)
+                return json.dumps(usuarioview.__dict__)
             else:
                 return jsonify("Password incorreto!")
         else:
